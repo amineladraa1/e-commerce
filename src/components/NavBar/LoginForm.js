@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, formValues, reduxForm } from "redux-form";
 import TextField from "@material-ui/core/TextField";
 import {
   Container,
@@ -8,9 +8,12 @@ import {
   Avatar,
   Typography,
   Box,
+  StepConnector,
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { makeStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { login } from "../../actions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -41,18 +44,18 @@ const useStyles = makeStyles((theme) => ({
 
 const validate = (values) => {
   const errors = {};
-  const requiredFields = ["email", "password"];
+  const requiredFields = ["username", "password"];
   requiredFields.forEach((field) => {
     if (!values[field]) {
       errors[field] = "Required";
     }
   });
-  if (
-    values.email &&
-    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-  ) {
-    errors.email = "Invalid email address";
-  }
+  // if (
+  //   values.email &&
+  //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+  // ) {
+  //   errors.email = "Invalid email address";
+  // }
   return errors;
 };
 
@@ -71,9 +74,12 @@ const renderTextField = ({
     {...custom}
   />
 );
-const onSubmit = () => {};
+
 const LoginForm = (props) => {
-  const { handleSubmit, submitting } = props;
+  const { handleSubmit, submitting, login } = props;
+  const onSubmit = (formValues) => {
+    login(formValues);
+  };
   const classes = useStyles();
   return (
     <Container component="main" maxWidth="xs" className={classes.paper}>
@@ -85,10 +91,10 @@ const LoginForm = (props) => {
         <Grid container>
           <Grid xs={12} sm={12}>
             <Field
-              name="email"
-              type="email"
+              name="username"
+              type="text"
               component={renderTextField}
-              label="email"
+              label="username"
               fullWidth
             />
           </Grid>
@@ -117,7 +123,13 @@ const LoginForm = (props) => {
   );
 };
 
-export default reduxForm({
+const mapStateToProps = (state) => {
+  return { user: state.user };
+};
+const mapDispatchToProps = { login };
+const wrappedForm = reduxForm({
   form: "LoginForm", // a unique identifier for this form
   validate,
 })(LoginForm);
+
+export default connect(mapStateToProps, mapDispatchToProps)(wrappedForm);
