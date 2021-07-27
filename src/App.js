@@ -7,6 +7,7 @@ import "./App.css";
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/NavBar/NavBar";
 import theme from "./ui/Theme";
+import LandinPage from "./components/landingPage/LandinPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,13 +19,7 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Switch>
-          <Route
-            path="/"
-            exact
-            component={() => (
-              <div style={{ height: "1300px" }}> All products</div>
-            )}
-          />
+          <Route path="/" exact component={LandinPage} />
           <Route
             path="/shoppingcart"
             exact
