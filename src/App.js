@@ -1,10 +1,12 @@
-import "./App.css";
-
-import NavBar from "./components/NavBar/NavBar";
-import { useDispatch } from "react-redux";
-import { fetchProducts } from "./actions";
+import { ThemeProvider } from "@material-ui/styles";
 import { useEffect } from "react";
-import Body from "./components/Body/Body";
+import { useDispatch } from "react-redux";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { fetchProducts } from "./actions";
+import "./App.css";
+import Footer from "./components/footer/Footer";
+import NavBar from "./components/NavBar/NavBar";
+import theme from "./ui/Theme";
 
 function App() {
   const dispatch = useDispatch();
@@ -12,10 +14,32 @@ function App() {
     dispatch(fetchProducts());
   }, []);
   return (
-    <div className="App">
-      <NavBar />
-      <Body />
-    </div>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <NavBar />
+        <Switch>
+          <Route
+            path="/"
+            exact
+            component={() => (
+              <div style={{ height: "1300px" }}> All products</div>
+            )}
+          />
+          <Route
+            path="/shoppingcart"
+            exact
+            component={() => <div> shoppingcart </div>}
+          />
+          <Route
+            path="/wishlist"
+            exact
+            component={() => <div> wishlist </div>}
+          />
+          <Route path="/login" exact component={() => <div> login </div>} />
+        </Switch>
+        <Footer />
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

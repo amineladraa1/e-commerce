@@ -1,92 +1,195 @@
+import {
+  Badge,
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  SwipeableDrawer,
+  Tabs,
+  Tab,
+} from "@material-ui/core";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
+import { useTheme } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import React from "react";
-import { useStyles } from "./NavStyle";
-import SignInModal from "./SignInModal/SignInModal";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { Badge, IconButton } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import NavBarPopover from "./NavBarPopover";
+import MenuIcon from "@material-ui/icons/Menu";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import React, { useState, useEffect } from "react";
+import Link from "react-router-dom/Link";
+import logo from "../../assets/logo.svg";
+import { useStyles } from "./NavStyle";
 
 export default function NavBar() {
   const classes = useStyles();
-  const [openModel, setOpenModel] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down("md"));
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const [value, setValue] = useState(0);
 
-  const handlePopoverOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const list = [
+    {
+      name: "All products",
+      value: 0,
+      link: "/",
+      className: value === 0 ? classes.listItemActive : null,
+      onClick() {
+        setOpenDrawer(false);
+        setValue(0);
+      },
+    },
+    {
+      name: "Shopping List",
+      value: 1,
+      link: "/shoppinglist",
+      className: value === 1 ? classes.listItemActive : null,
+      onClick() {
+        setOpenDrawer(false);
+        setValue(1);
+      },
+    },
+    {
+      name: "Wish list",
+      value: 2,
+      link: "/wishlist",
+      className: value === 2 ? classes.listItemActive : null,
+      onClick: () => {
+        setOpenDrawer(false);
+        setValue(2);
+      },
+    },
+    {
+      name: "Login",
+      value: 3,
+      link: "/login",
+      className:
+        value === 3
+          ? [classes.listItemActive, classes.loginListItem]
+          : classes.loginListItem,
+      onClick() {
+        setOpenDrawer(false);
+        setValue(3);
+      },
+    },
+  ];
 
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-  const handlePopoverOpen1 = (event) => {
-    setAnchorEl1(event.currentTarget);
-  };
+  const renderedListItems = () =>
+    list.map((item, index) => (
+      <ListItem
+        component={Link}
+        to={`${item.link}`}
+        onClick={item.onClick}
+        divider
+        button
+        selected={value === item.value}
+        className={item.className}
+      >
+        {" "}
+        <ListItemText disableTypography> {item.name}</ListItemText>
+      </ListItem>
+    ));
 
-  const handlePopoverClose1 = () => {
-    setAnchorEl1(null);
+  const drawer = (
+    <>
+      <SwipeableDrawer
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+        classes={{ paper: classes.drawer }}
+      >
+        <div className={classes.toolbarMargin} />
+        <List selected={0} disablePadding>
+          {renderedListItems()}
+        </List>
+      </SwipeableDrawer>
+      <IconButton
+        onClick={() => setOpenDrawer(!openDrawer)}
+        disableRipple
+        className={classes.drawerIconContainer}
+      >
+        <MenuIcon className={classes.drawerMenuIcon} />
+      </IconButton>
+    </>
+  );
+  const handleChange = (e, newValue) => {
+    setValue(newValue);
   };
+  useEffect(() => {
+    if (window.location.pathname === "/") setValue(0);
+    if (window.location.pathname === "/shoppingcart") setValue(1);
+    if (window.location.pathname === "/wishlist") setValue(2);
+    if (window.location.pathname === "/login") setValue(3);
+  }, []);
+  const tabs = (
+    <>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        variant="fullWidth"
+        indicatorColor="primary"
+        textColor="primary"
+        aria-label="icon tabs example"
+        className={classes.tabsContainer}
+        indicatorColor={value === 3 ? "primary.light" : "primary"}
+      >
+        <Tab
+          component={Link}
+          to="/"
+          label="All products"
+          className={classes.appBarIcons}
+          disableRipple
+        />
+        <Tab
+          component={Link}
+          to="/shoppingcart"
+          icon={<ShoppingCartIcon />}
+          label="Shopping cart"
+          className={classes.appBarIcons}
+          disableRipple
+        />
 
-  const open = Boolean(anchorEl);
-  const open1 = Boolean(anchorEl1);
+        <Tab
+          component={Link}
+          to="/wishlist"
+          icon={<FavoriteIcon />}
+          label="Wish list"
+          className={classes.appBarIcons}
+          disableRipple
+        />
 
-  const handleOpenModel = () => {
-    setOpenModel(true);
-  };
-  const handleCloseModel = () => {
-    setOpenModel(false);
-  };
-
+        <Tab
+          component={Link}
+          to="/login"
+          label="Login"
+          className={[classes.appBarIcons, classes.loginButton]}
+          disableRipple
+        />
+      </Tabs>
+    </>
+  );
   return (
-    <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            URcommerce
-          </Typography>
-
-          <Button color="inherit">All Products</Button>
-          <Button color="inherit" onClick={handleOpenModel}>
-            Login
-          </Button>
-          <SignInModal
-            handleCloseModel={handleCloseModel}
-            openModel={openModel}
-          />
-          <IconButton
-            onMouseEnter={handlePopoverOpen}
-            onMouseLeave={handlePopoverClose}
-          >
-            <Badge badgeContent={4} color="secondary">
-              <ShoppingCartIcon />
-            </Badge>
-            <NavBarPopover
-              handlePopoverClose={handlePopoverClose}
-              title="Shop cart"
-              open={open}
-              anchorEl={anchorEl}
-            />
-          </IconButton>
-          <IconButton
-            onMouseEnter={handlePopoverOpen1}
-            onMouseLeave={handlePopoverClose1}
-          >
-            <Badge badgeContent={2} color="secondary">
-              <FavoriteIcon />
-            </Badge>
-            <NavBarPopover
-              handlePopoverClose={handlePopoverClose1}
-              title="Wish List"
-              open={open1}
-              anchorEl={anchorEl1}
-            />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <>
+      <div className={classes.root}>
+        <AppBar elevation={1} position="fixed" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              component={Link}
+              to="/"
+              disableRipple
+              className={classes.logoContainer}
+            >
+              <img alt="company logo" src={logo} className={classes.image} />
+            </IconButton>
+            {matches ? drawer : tabs}
+          </Toolbar>
+        </AppBar>
+      </div>
+      <div className={classes.toolbarMargin} />
+    </>
   );
 }
