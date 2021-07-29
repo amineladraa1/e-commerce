@@ -1,35 +1,24 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    marginBottom: "4em",
+    marginBottom: "3em",
     [theme.breakpoints.down("md")]: {
-      marginBottom: "3em",
+      marginBottom: "2em",
     },
     [theme.breakpoints.down("xs")]: {
-      marginBottom: "1.5em",
+      marginBottom: "1.25em",
     },
   },
-  appBar: {
-    backgroundColor: theme.palette.primary.light,
-    color: "white",
-    zIndex: theme.zIndex.modal + 1,
-  },
-  appBarIcons: {
-    color: "white",
-    marginLeft: "25px",
-  },
-  iconButtontab: {
-    "&:hover": {
-      backgroundColor: "transparent",
+  logo: {
+    height: "8em",
+    [theme.breakpoints.down("md")]: {
+      height: "7em",
     },
-  },
-  tabsContainer: {
-    marginLeft: "auto",
+    [theme.breakpoints.down("xs")]: {
+      height: "5.5em",
+    },
   },
   logoContainer: {
     padding: 0,
@@ -37,59 +26,63 @@ export const useStyles = makeStyles((theme) => ({
       backgroundColor: "transparent",
     },
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  image: {
-    // flexGrow: 1,
-    cursor: "pointer",
-    height: "8rem",
-    [theme.breakpoints.down("md")]: {
-      cursor: "pointer",
-      height: "7rem",
-    },
-    [theme.breakpoints.down("xs")]: {
-      height: "5rem",
-    },
-  },
-  loginButton: {
-    ...theme.navButtons,
-    height: "3rem",
-    borderRadius: "5%",
-    backgroundColor: theme.palette.secondary.main,
-    marginTop: "0.7rem",
-  },
-  loginListItem: {
-    ...theme.navButtons,
-    backgroundColor: theme.palette.primary.main,
-    "&:hover": {
-      backgroundColor: theme.palette.primary.main,
-      opacity: "0.9",
-    },
-  },
-  listItemActive: {
-    color: theme.palette.primary.main,
-  },
-  productsButton: {
-    ...theme.navButtons,
+  tabContainer: {
     marginLeft: "auto",
+  },
+  tab: {
+    ...theme.typography.tab,
+    minWidth: 10,
+    marginLeft: "25px",
+  },
+  button: {
+    ...theme.navButtons,
+    borderRadius: "50px",
+    marginLeft: "50px",
+    marginRight: "25px",
+    height: "45px",
     "&:hover": {
-      backgroundColor: "transparent",
+      backgroundColor: theme.palette.secondary.light,
     },
   },
-
+  menu: {
+    backgroundColor: theme.palette.primary.main,
+    color: "white",
+    borderRadius: "0px",
+  },
+  menuItem: {
+    ...theme.typography.tab,
+    opacity: 0.7,
+    "&:hover": {
+      opacity: 1,
+    },
+  },
+  drawerIcon: {
+    height: "50px",
+    width: "50px",
+  },
   drawerIconContainer: {
     marginLeft: "auto",
     "&:hover": {
       backgroundColor: "transparent",
     },
   },
-  drawerMenuIcon: {
-    height: "45px",
-    width: "45px",
-  },
   drawer: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.main,
+  },
+  drawerItem: {
+    ...theme.typography.tab,
     color: "white",
+    opacity: 0.7,
+  },
+  drawerItemEstimate: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  drawerItemSelected: {
+    "& .MuiListItemText-root": {
+      opacity: 1,
+    },
+  },
+  appbar: {
+    zIndex: theme.zIndex.modal + 1,
   },
 }));

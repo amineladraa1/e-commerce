@@ -1,8 +1,7 @@
 import { ThemeProvider } from "@material-ui/styles";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { fetchProducts } from "./actions";
+import { useState } from "react";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/NavBar/NavBar";
@@ -10,14 +9,17 @@ import theme from "./ui/Theme";
 import LandinPage from "./components/landingPage/LandinPage";
 
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchProducts());
-  }, []);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [value, setValue] = useState(0);
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <NavBar />
+        <NavBar
+          value={value}
+          setValue={setValue}
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+        />
         <Switch>
           <Route path="/" exact component={LandinPage} />
           <Route
@@ -32,7 +34,7 @@ function App() {
           />
           <Route path="/login" exact component={() => <div> login </div>} />
         </Switch>
-        <Footer />
+        <Footer setValue={setValue} setSelectedIndex={setSelectedIndex} />
       </BrowserRouter>
     </ThemeProvider>
   );
