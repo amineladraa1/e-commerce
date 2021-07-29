@@ -49,17 +49,11 @@ export default createTheme({
       fontFamily: "Raleway",
       fontWeight: "bold",
     },
-    h2: {
-      fontFamily: "Raleway",
-      fontSize: "2.5em",
-      fontWeight: 700,
-      color: bleu,
-      lineHeight: 1.5,
-    },
     h3: {
       fontFamily: "Raleway",
       fontSize: "2.5em",
       color: bleu,
+      fontWeight: 700,
     },
     h4: {
       fontFamily: "Raleway",
@@ -68,11 +62,13 @@ export default createTheme({
       fontWeight: 700,
     },
     subtitle1: {
+      fontFamily: "Raleway",
       fontSize: "1.25rem",
       fontWeight: 300,
       color: grey,
     },
     subtitle2: {
+      fontFamily: "Raleway",
       fontSize: "1.25rem",
       fontWeight: 300,
       color: "white",
