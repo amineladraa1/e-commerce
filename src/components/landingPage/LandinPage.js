@@ -1,104 +1,24 @@
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import React from "react";
 import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
 import animationData from "../../animations/landinganimation/data";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Button, CardContent, Grid, Typography, Card } from "@material-ui/core";
-import ButtonArrow from "../../ui/ButtonArrow";
 import customSoftwareIcon from "../../assets/Custom Software Icon.svg";
 import mobileAppIcon from "../../assets/mobileIcon.svg";
 import websiteIcon from "../../assets/websiteIcon.svg";
-import { useMediaQuery } from "@material-ui/core";
-import bgImage from "../../assets/repeatingBackground.svg";
-import infoBgImage from "../../assets/infoBackground.svg";
+import ButtonArrow from "../../ui/ButtonArrow";
 import CallToAction from "../../ui/CallToAction";
+import { useStyles } from "./LandinPageStyle";
 
-const useStyles = makeStyles((theme) => ({
-  animation: {
-    maxWidth: "50em",
-    minWidth: "21em",
-    marginTop: "2em",
-    marginLeft: "10%",
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "30em",
-    },
-  },
-  subButton: {
-    ...theme.navButtons,
-    borderRadius: 50,
-    height: 45,
-    width: 180,
-    marginRight: 40,
-    backgroundColor: theme.palette.secondary.main,
-    "&:hover": {
-      backgroundColor: theme.palette.secondary.light,
-    },
-  },
-  btnContainer: {
-    marginTop: "2em",
-  },
-  lrnBtnHero: {
-    ...theme.typography.lrnButton,
-    fontSize: "0.9rem",
-    height: 45,
-    width: 145,
-  },
-  lrnBtnServ: {
-    ...theme.typography.lrnButton,
-    fontSize: "0.7rem",
-    height: 35,
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: "2em",
-    },
-  },
-  heroTxtCntnr: {
-    minWidth: "22em",
-    marginLeft: "1em",
-    [theme.breakpoints.down("xs")]: {
-      marginLeft: 0,
-    },
-  },
-  serviceContainer: {
-    marginTop: "12em",
-    [theme.breakpoints.down("sm")]: {
-      padding: 25,
-    },
-  },
-  icon: {
-    marginLeft: "2em",
-    [theme.breakpoints.down("xs")]: {
-      marginLeft: "0",
-    },
-  },
-  backgroundImage: {
-    backgroundImage: `url(${bgImage})`,
-    width: "100%",
-    height: "100%",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  },
-  RevCard: {
-    position: "absolute",
-    padding: "10em",
-    borderRadius: 15,
-    boxShadow: theme.shadows[10],
-    [theme.breakpoints.down("sm")]: {
-      padding: "8em 0 8em 0",
-      borderRadius: 0,
-      width: "100%",
-    },
-  },
-  infoBgImage: {
-    backgroundImage: `url(${infoBgImage})`,
-    width: "100%",
-    height: "100%",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  },
-}));
-
-function LandinPage() {
+function LandinPage({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSm = useMediaQuery(theme.breakpoints.down("sm"));
@@ -123,12 +43,24 @@ function LandinPage() {
             </Typography>
             <Grid container justify="center" className={classes.btnContainer}>
               <Grid item>
-                <Button variant="contained" className={classes.subButton}>
+                <Button
+                  component={Link}
+                  to="/estimate"
+                  onClick={() => setValue(5)}
+                  variant="contained"
+                  className={classes.subButton}
+                >
                   Free subscription
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="outlined" className={classes.lrnBtnHero}>
+                <Button
+                  component={Link}
+                  to="/revolution"
+                  variant="outlined"
+                  onClick={() => setValue(2)}
+                  className={classes.lrnBtnHero}
+                >
                   <span style={{ marginRight: 10 }}> Learn More </span>
                   <ButtonArrow
                     width={15}
@@ -169,7 +101,16 @@ function LandinPage() {
               Complete digital Solution, from investigation to{" "}
               <span>celebration</span>
             </Typography>
-            <Button variant="outlined" className={classes.lrnBtnServ}>
+            <Button
+              component={Link}
+              to="/customsoftware"
+              variant="outlined"
+              onClick={() => {
+                setValue(1);
+                setSelectedIndex(1);
+              }}
+              className={classes.lrnBtnServ}
+            >
               <span style={{ marginRight: 10 }}> Learn More</span>
               <ButtonArrow
                 width={10}
@@ -202,7 +143,16 @@ function LandinPage() {
             <Typography variant="subtitle1" style={{ marginBottom: "0.8em" }}>
               Ectended Functionality. extend Access.Increase Engagement
             </Typography>
-            <Button variant="outlined" className={classes.lrnBtnServ}>
+            <Button
+              component={Link}
+              to="/mobileapps"
+              onClick={() => {
+                setValue(1);
+                setSelectedIndex(2);
+              }}
+              variant="outlined"
+              className={classes.lrnBtnServ}
+            >
               <span style={{ marginRight: 10 }}> Learn More</span>
               <ButtonArrow
                 width={10}
@@ -241,7 +191,16 @@ function LandinPage() {
               Complete digital Solution, from investigation to{" "}
               <span>celebration</span>
             </Typography>
-            <Button variant="outlined" className={classes.lrnBtnServ}>
+            <Button
+              component={Link}
+              to="/websites"
+              onClick={() => {
+                setValue(1);
+                setSelectedIndex(3);
+              }}
+              variant="outlined"
+              className={classes.lrnBtnServ}
+            >
               <span style={{ marginRight: 10 }}> Learn More</span>
               <ButtonArrow
                 width={10}
@@ -283,7 +242,13 @@ function LandinPage() {
                       Complete digital Solution, from investigation to{" "}
                       <span>celebration</span>
                     </Typography>
-                    <Button variant="outlined" className={classes.lrnBtnServ}>
+                    <Button
+                      component={Link}
+                      to="/revolution"
+                      variant="outlined"
+                      onClick={() => setValue(2)}
+                      className={classes.lrnBtnServ}
+                    >
                       <span style={{ marginRight: 10 }}> Learn More</span>
                       <ButtonArrow
                         width={15}
@@ -328,7 +293,10 @@ function LandinPage() {
                   Let's get personal.
                 </Typography>
                 <Button
+                  component={Link}
+                  to="/about"
                   variant="outlined"
+                  onClick={() => setValue(3)}
                   className={classes.lrnBtnServ}
                   style={{
                     borderColor: "white",
@@ -363,7 +331,10 @@ function LandinPage() {
                   </span>
                 </Typography>
                 <Button
+                  component={Link}
+                  to="/contact"
                   variant="outlined"
+                  onClick={() => setValue(4)}
                   className={classes.lrnBtnServ}
                   style={{
                     borderColor: "white",
@@ -381,7 +352,7 @@ function LandinPage() {
       </Grid>
       {/* ------------------call to action------------------  */}
       <Grid item>
-        <CallToAction />
+        <CallToAction setValue={setValue} setSelectedIndex={setSelectedIndex} />
       </Grid>
     </Grid>
   );

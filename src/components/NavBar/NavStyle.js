@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   logo: {
-    height: "10em",
+    height: "8em",
     [theme.breakpoints.down("md")]: {
       height: "7em",
     },

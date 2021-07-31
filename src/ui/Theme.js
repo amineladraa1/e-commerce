@@ -73,5 +73,10 @@ export default createTheme({
       fontWeight: 300,
       color: "white",
     },
+    body1: {
+      fontSize: "1.25rem",
+      fontWeight: 300,
+      color: grey,
+    },
   },
 });

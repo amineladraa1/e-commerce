@@ -5,6 +5,7 @@ import ButtonArrow from "./ButtonArrow";
 import background from "../assets/background.jpg";
 import mobileBg from "../assets/mobileBackground.jpg";
 import { useMediaQuery } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   calToActBackground: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CallToAction() {
+function CallToAction({ setValue, setSelectedIndex }) {
   const classes = useStyles();
   const theme = useTheme();
   const matchSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -69,7 +70,13 @@ function CallToAction() {
             Take advantage of what you own{" "}
           </Typography>
           <Grid container justify="center">
-            <Button variant="outlined" className={classes.lrnBtnServ}>
+            <Button
+              component={Link}
+              to="/revolution"
+              variant="outlined"
+              onClick={() => setValue(2)}
+              className={classes.lrnBtnServ}
+            >
               <span style={{ marginRight: 5 }}> Learn More</span>
               <ButtonArrow
                 width={10}
@@ -81,7 +88,13 @@ function CallToAction() {
         </Grid>
       </Grid>
       <Grid item>
-        <Button className={classes.subButton} style={{ color: "white" }}>
+        <Button
+          component={Link}
+          to="/estimate"
+          onClick={() => setValue(5)}
+          className={classes.subButton}
+          style={{ color: "white" }}
+        >
           Free Subscription
         </Button>
       </Grid>
