@@ -1,3 +1,4 @@
+import { blue } from "@material-ui/core/colors";
 import { createTheme } from "@material-ui/core/styles";
 
 const bleu = "#0B72B9";
@@ -61,6 +62,11 @@ export default createTheme({
       color: bleu,
       fontWeight: 700,
     },
+    h6: {
+      fontWeight: 500,
+      fontFamily: "Raleway",
+      color: bleu,
+    },
     subtitle1: {
       fontFamily: "Raleway",
       fontSize: "1.25rem",
@@ -77,6 +83,33 @@ export default createTheme({
       fontSize: "1.25rem",
       fontWeight: 300,
       color: grey,
+    },
+    caption: {
+      fontSize: "1rem",
+      fontWeight: 300,
+      color: grey,
+    },
+  },
+  overrides: {
+    MuiInputLabel: {
+      root: {
+        color: bleu,
+        fontSize: "1.3rem",
+      },
+    },
+    MuiInput: {
+      root: {
+        color: grey,
+        fontWeight: 300,
+      },
+      underline: {
+        "&before": {
+          borderBottom: `2px solid ${bleu}`,
+        },
+        "&:hover:not($disabled):not($focused):not($error):before": {
+          borderBottom: `1px solid ${bleu}`,
+        },
+      },
     },
   },
 });

@@ -2,7 +2,7 @@ import { ThemeProvider } from "@material-ui/styles";
 
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { useState } from "react";
-import "./App.css";
+
 import Footer from "./components/footer/Footer";
 import NavBar from "./components/NavBar/NavBar";
 import theme from "./ui/Theme";
@@ -11,6 +11,9 @@ import Services from "./components/services/Services";
 import CustomSoftware from "./components/customSoftware/CustomSoftware";
 import MobileDevelopement from "./components/MobileDevelopement/MobileDevelopement";
 import Websites from "./components/websites/Websites";
+import Revolution from "./components/revolution/Revolution";
+import About from "./components/about-us/AboutUs";
+import Contact from "./components/contact-us/Contact";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -76,9 +79,36 @@ function App() {
               />
             )}
           />
-          <Route path="/revolution" component={() => <div> revolution </div>} />
-          <Route path="/about" component={() => <div> about </div>} />
-          <Route path="/contact" component={() => <div> contact </div>} />
+          <Route
+            path="/revolution"
+            render={(props) => (
+              <Revolution
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
+          <Route
+            path="/about"
+            render={(props) => (
+              <About
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
+          <Route
+            path="/contact"
+            render={(props) => (
+              <Contact
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
         </Switch>
         <Footer setValue={setValue} setSelectedIndex={setSelectedIndex} />
       </BrowserRouter>

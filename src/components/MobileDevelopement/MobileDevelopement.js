@@ -30,7 +30,7 @@ function MobileDevelopement(props) {
 
   const defaultOptions = {
     loop: true,
-    autoplay: false,
+    autoplay: true,
     animationData: integrationAnimation,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
@@ -108,7 +108,7 @@ function MobileDevelopement(props) {
                 disableRipple
                 style={{ backgroundColor: "transparent" }}
                 component={Link}
-                to="/mobileapps"
+                to="/websites"
                 onClick={() => props.setSelectedIndex(3)}
               >
                 <img src={forwardArrow} alt="go to the the revolution page" />
