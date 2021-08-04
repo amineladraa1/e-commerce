@@ -14,6 +14,7 @@ import Websites from "./components/websites/Websites";
 import Revolution from "./components/revolution/Revolution";
 import About from "./components/about-us/AboutUs";
 import Contact from "./components/contact-us/Contact";
+import Estimate from "./components/estimate/Estimate";
 
 function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -103,6 +104,16 @@ function App() {
             path="/contact"
             render={(props) => (
               <Contact
+                {...props}
+                setValue={setValue}
+                setSelectedIndex={setSelectedIndex}
+              />
+            )}
+          />
+          <Route
+            path="/estimate"
+            render={(props) => (
+              <Estimate
                 {...props}
                 setValue={setValue}
                 setSelectedIndex={setSelectedIndex}

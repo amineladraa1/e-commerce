@@ -4,6 +4,8 @@ import {
   useMediaQuery,
   TextField,
   Button,
+  Dialog,
+  DialogContent,
 } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import React, { useState } from "react";
@@ -46,6 +48,11 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: 0,
       marginTop: "2em",
     },
+    [theme.breakpoints.down("sm")]: {
+      height: 40,
+      width: 225,
+      marginTop: 0,
+    },
   },
   lrnBtnServ: {
     ...theme.typography.lrnButton,
@@ -67,10 +74,45 @@ function Contact(props) {
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+
   const [name, setName] = useState("");
+
   const [email, setEmail] = useState("");
+  const [emailHelper, setEmailHelper] = useState("");
+
   const [message, setMessage] = useState("");
+
   const [phone, setPhone] = useState("");
+  const [phoneHelper, setPhoneHelper] = useState("");
+
+  const [open, setOpen] = useState(false);
+
+  const handleChange = (e) => {
+    let isValid;
+    let regexEm = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    switch (e.target.id) {
+      case "email":
+        setEmail(e.target.value);
+        isValid = regexEm.test(e.target.value);
+        if (!isValid) {
+          setEmailHelper("Invalid email");
+        } else {
+          setEmailHelper("");
+        }
+        break;
+      case "phone":
+        setPhone(e.target.value);
+        isValid = /(\+212|0)([ \-_/]*)(\d[ \-_/]*){9}/g.test(e.target.value);
+        if (!isValid) {
+          setPhoneHelper("invalid phone Number");
+        } else {
+          setPhoneHelper("");
+        }
+      default:
+        break;
+    }
+  };
 
   return (
     <Grid container>
@@ -156,25 +198,29 @@ function Contact(props) {
                 id="name"
                 fullWidth
                 label="Name"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(event) => setName(event.target.value)}
               />
             </Grid>
             <Grid item style={{ marginBottom: "0.9em", marginTop: "0.9em" }}>
               <TextField
                 value={email}
                 id="email"
+                error={emailHelper.length !== 0}
+                helperText={emailHelper}
                 fullWidth
                 label="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => handleChange(e)}
               />
             </Grid>
             <Grid item>
               <TextField
                 value={phone}
+                error={phoneHelper.length !== 0}
+                helperText={phoneHelper}
                 id="phone"
                 fullWidth
                 label="Phone"
-                onChange={(e) => setPhone(e.target.value)}
+                onChange={handleChange}
               />
             </Grid>
           </Grid>
@@ -188,7 +234,7 @@ function Contact(props) {
               fullWidth
               InputProps={{ disableUnderline: true }}
               value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              onChange={(event) => setMessage(event.target.value)}
             />
           </Grid>
 
@@ -202,12 +248,19 @@ function Contact(props) {
           >
             <Button
               className={classes.subButton}
+              disabled={
+                name.length === 0 ||
+                emailHelper.length !== 0 ||
+                phoneHelper.length !== 0 ||
+                message.length === 0
+              }
               style={{
                 boxShadow: theme.shadows[4],
                 marginRight: 0,
                 marginLeft: 0,
               }}
               variant="contained"
+              onClick={() => setOpen(true)}
             >
               Send Message
               <img
@@ -219,7 +272,127 @@ function Contact(props) {
           </Grid>
         </Grid>
       </Grid>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        style={{ zIndex: theme.zIndex.modal + 2 }}
+        PaperProps={{
+          style: {
+            paddingTop: matchesXS ? "1em" : "5em",
+            paddingBottom: matchesXS ? "1em" : "5em",
+            paddingLeft: matchesXS
+              ? 0
+              : matchesSM
+              ? 0
+              : matchesMD
+              ? "15em"
+              : "25em",
+            paddingRight: matchesXS
+              ? 0
+              : matchesSM
+              ? 0
+              : matchesMD
+              ? "15em"
+              : "25em",
+          },
+        }}
+      >
+        <DialogContent>
+          <Grid container direction="column">
+            <Grid item>
+              <Typography align="center" variant="h4" gutterBottom>
+                Confirm Message
+              </Typography>
+            </Grid>
+            <Grid item>
+              <TextField
+                value={name}
+                id="name"
+                fullWidth
+                label="Name"
+                onChange={(event) => setName(event.target.value)}
+              />
+            </Grid>
+            <Grid item style={{ marginBottom: "0.9em", marginTop: "0.9em" }}>
+              <TextField
+                value={email}
+                id="email"
+                error={emailHelper.length !== 0}
+                helperText={emailHelper}
+                fullWidth
+                label="Email"
+                onChange={(e) => handleChange(e)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                value={phone}
+                error={phoneHelper.length !== 0}
+                helperText={phoneHelper}
+                id="phone"
+                fullWidth
+                label="Phone"
+                onChange={handleChange}
+              />
+            </Grid>
 
+            <Grid item>
+              <TextField
+                className={classes.msgInput}
+                multiline
+                rows={10}
+                style={{ maxWidth: "20em" }}
+                id="message"
+                fullWidth
+                InputProps={{ disableUnderline: true }}
+                value={message}
+                onChange={(event) => setMessage(event.target.value)}
+              />
+            </Grid>
+            <Grid
+              container
+              direction={matchesMD ? "column" : "row"}
+              style={{ marginTop: "2em" }}
+              alignItems="center"
+            >
+              <Grid item>
+                <Button
+                  style={{ fontWeight: 300 }}
+                  color="primary"
+                  onClick={() => setOpen(false)}
+                >
+                  Cancel
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  className={classes.subButton}
+                  disabled={
+                    name.length === 0 ||
+                    emailHelper.length !== 0 ||
+                    phoneHelper.length !== 0 ||
+                    message.length === 0
+                  }
+                  style={{
+                    boxShadow: theme.shadows[4],
+                    marginRight: 0,
+                    marginLeft: 0,
+                  }}
+                  variant="contained"
+                  onClick={() => setOpen(true)}
+                >
+                  Send Message
+                  <img
+                    alt="plane emoji"
+                    src={airplane}
+                    style={{ marginLeft: "1em" }}
+                  />
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+      </Dialog>
       <Grid
         item
         lg={8}
